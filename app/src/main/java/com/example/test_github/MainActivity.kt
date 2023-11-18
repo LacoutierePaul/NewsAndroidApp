@@ -13,6 +13,11 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/* la vidéo du goat pour retrofit :
+https://www.youtube.com/watch?v=5gFrXGbQsc8
+ */
+
+
 const val BASE_URL = "https://jsonplaceholder.typicode.com/"
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
