@@ -44,4 +44,15 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    /*Ajout de retrofit (obligatoire)
+    C'est une bibliothèque HTTP qui facilite les appels réseau dans les applications Android.
+    Elle simplifie la communication avec les API en convertissant automatiquement les réponses JSON en objets Kotlin.
+    Cela facilite le développement d'applications qui nécessitent des interactions avec des serveurs web.
+     on le trouve dans : https://square.github.io/retrofit/
+     */
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+
+    // OOn ajoute la dependance GSON pour convertir les données
+    implementation("com.squareup.retrofit2:converter-gson:2.1.0")
 }
