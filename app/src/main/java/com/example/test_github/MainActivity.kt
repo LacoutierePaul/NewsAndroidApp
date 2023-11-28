@@ -125,4 +125,42 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
+
+    private fun getMyDataTestPaul() {
+        // Initialisation de Retrofit
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(Apiinterface::class.java)
+
+        // Appel de la méthode de l'API pour obtenir les données
+        val call = retrofit.getData()
+
+        // Envoi de la requête de manière asynchrone
+        call.enqueue(object : Callback<MyDataItem> {
+            override fun onResponse(call: Call<MyDataItem>, response: Response<MyDataItem>) {
+                if (response.isSuccessful) {
+                    // Si la réponse est réussie, traiter les données ici
+                    val myDataItem = response.body()
+                    myDataItem?.let {
+                        // Afficher ou traiter les données comme nécessaire
+                        // ...
+                    }
+                } else {
+                    // Si la réponse n'est pas réussie, afficher un message d'erreur
+                    val txtView: TextView = findViewById(R.id.txtId)
+                    txtView.text = "Échec de la récupération des données"
+                }
+            }
+
+            override fun onFailure(call: Call<MyDataItem>, t: Throwable) {
+                // En cas d'échec de la requête, afficher un message d'erreur
+                val txtView: TextView = findViewById(R.id.txtId)
+                txtView.text = "Erreur : ${t.message}"
+            }
+        })
+    }
+
 }

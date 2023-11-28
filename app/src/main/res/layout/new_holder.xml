@@ -1,0 +1,28 @@
+<!-- res/layout/item_article.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@drawable/border"
+
+    >
+
+    <!-- Ajoutez des vues pour afficher les détails de l'article (source, auteur, titre, etc.) -->
+
+    <TextView
+        android:id="@+id/textSource"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Source:" />
+
+    <TextView
+        android:id="@+id/textAuthor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Auteur:" />
+
+    <!-- Ajoutez d'autres vues pour les autres détails de l'article -->
+
+</LinearLayout>
