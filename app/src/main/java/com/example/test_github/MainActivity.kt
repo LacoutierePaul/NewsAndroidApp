@@ -153,6 +153,11 @@ class MainActivity : AppCompatActivity() {
                         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
                         recyclerView.adapter = ArticleAdapter(it.articles)
                         recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+                        val txtView: TextView = findViewById(R.id.txtId)
+                        val stringBuilder = StringBuilder()
+                        stringBuilder.append("Statut: ${it.status}\n")
+                        stringBuilder.append("Total des résultats: ${it.totalResults}\n")
+                        txtView.text = stringBuilder.toString()
 
                     }
                 } else {
