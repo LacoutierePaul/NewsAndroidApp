@@ -12,6 +12,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import androidx.recyclerview.widget.LinearLayoutManager
 
 /* la vidéo du goat pour retrofit :
 https://www.youtube.com/watch?v=5gFrXGbQsc8
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        getMyData()
+        getMyDataTestPaul()
     }
 
     /*
@@ -146,7 +147,13 @@ class MainActivity : AppCompatActivity() {
                     val myDataItem = response.body()
                     myDataItem?.let {
                         // Afficher ou traiter les données comme nécessaire
-                        // ...
+                        // Configurer le RecyclerView avec l'adaptateur
+                        Log.d("MainActivity", "Number of articles: ${it.articles.size}")
+
+                        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+                        recyclerView.adapter = ArticleAdapter(it.articles)
+                        recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+
                     }
                 } else {
                     // Si la réponse n'est pas réussie, afficher un message d'erreur
