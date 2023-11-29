@@ -104,8 +104,8 @@ class MainActivity : AppCompatActivity() {
                             stringBuilder.append("Titre: ${article.title}\n")
                             stringBuilder.append("Description: ${article.description}\n")
                             stringBuilder.append("URL: ${article.url}\n")
-                            stringBuilder.append("Image URL: ${article.imageUrl}\n")
-                            stringBuilder.append("Date de publication: ${article.publishDate}\n")
+                            stringBuilder.append("Image URL: ${article.urlToImage}\n")
+                            stringBuilder.append("Date de publication: ${article.publishedAt}\n")
                             stringBuilder.append("Contenu: ${article.content}\n\n")
                         }
 

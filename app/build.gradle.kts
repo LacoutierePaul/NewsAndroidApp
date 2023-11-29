@@ -55,4 +55,11 @@ dependencies {
 
     // OOn ajoute la dependance GSON pour convertir les données
     implementation("com.squareup.retrofit2:converter-gson:2.1.0")
+
+    implementation ("com.github.bumptech.glide:glide:4.11.0")
+
+
+    implementation ("androidx.cardview:cardview:1.0.0")
+
+
 }
