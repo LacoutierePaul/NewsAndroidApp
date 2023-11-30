@@ -58,6 +58,9 @@ dependencies {
 
     implementation ("com.github.bumptech.glide:glide:4.11.0")
 
+    implementation ("androidx.navigation:navigation-fragment-ktx:2.4.0")
+    implementation ("androidx.navigation:navigation-ui-ktx:2.4.0")
+
 
     implementation ("androidx.cardview:cardview:1.0.0")
 

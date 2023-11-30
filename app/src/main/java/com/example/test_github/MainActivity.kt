@@ -1,6 +1,7 @@
 package com.example.test_github
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+import  androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,6 +14,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import androidx.recyclerview.widget.LinearLayoutManager
+
 
 /* la vidéo du goat pour retrofit :
 https://www.youtube.com/watch?v=5gFrXGbQsc8
@@ -151,7 +153,7 @@ class MainActivity : AppCompatActivity() {
                         Log.d("MainActivity", "Number of articles: ${it.articles.size}")
 
                         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
-                        recyclerView.adapter = ArticleAdapter(it.articles)
+                        recyclerView.adapter = ArticleAdapter(it.articles,supportFragmentManager)
                         recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
                         val txtView: TextView = findViewById(R.id.txtId)
                         val stringBuilder = StringBuilder()
