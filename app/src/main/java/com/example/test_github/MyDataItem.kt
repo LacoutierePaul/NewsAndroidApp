@@ -1,5 +1,7 @@
 package com.example.test_github
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 data class MyDataItem( // quand on va sur le lien https://jsonplaceholder.typicode.com/posts
@@ -16,7 +18,12 @@ data class MyDataItem( // quand on va sur le lien https://jsonplaceholder.typico
     val totalResults: Int,
     val articles: ArrayList<Article>
 )
+
+@Entity(tableName="articles")
 data class Article(
+
+    @PrimaryKey(autoGenerate = true)
+    val id: Int=0,
     val source: Source,
     val author: String,
     val title: String,
@@ -27,6 +34,6 @@ data class Article(
     val content: String
 )
 data class Source(
-    val id: String,
+    val sourceId: String,
     val name: String
 )
