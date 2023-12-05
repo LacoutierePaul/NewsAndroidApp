@@ -28,14 +28,14 @@ class ArticleViewModel : ViewModel() {
     val articleList: LiveData<List<Article>>
         get() = _articleList
 
-    fun fetchData() {
+    fun fetchData(category:String,country:String) {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(Apiinterface::class.java)
 
-        val call = retrofit.getData()
+        val call = retrofit.getData(country = country, category = category, apiKey = "150c1cb0b4e644e98f794f4d1a14be2e")
 
         call.enqueue(object : Callback<MyDataItem> {
             override fun onResponse(call: Call<MyDataItem>, response: Response<MyDataItem>) {

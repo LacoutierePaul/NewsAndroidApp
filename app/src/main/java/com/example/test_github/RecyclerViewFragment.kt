@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -33,6 +36,10 @@ class RecyclerViewFragment : Fragment() ,OnItemClickListener{
     private lateinit var recyclerView: RecyclerView
     private lateinit var txtView: TextView
     private val articleViewModel: ArticleViewModel by activityViewModels()
+    private lateinit var categorySpinner: Spinner
+    private lateinit var languageSpinner: Spinner
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +49,21 @@ class RecyclerViewFragment : Fragment() ,OnItemClickListener{
 
         recyclerView = view.findViewById(R.id.recyclerView)
         txtView = view.findViewById(R.id.txtId)
+        categorySpinner = view.findViewById(R.id.categorySpinner)
+        languageSpinner = view.findViewById(R.id.languageSpinner)
+
+
+        //set up Category spinner
+        val categories = resources.getStringArray(R.array.categories)
+        val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        categorySpinner.adapter = spinnerAdapter
+
+        //set up languages spinner
+        val languages = resources.getStringArray(R.array.language)
+        val languageAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, languages)
+        languageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        languageSpinner.adapter = languageAdapter
 
         // Appeler la fonction de récupération de données ici
         // Observer pour les modifications des données dans le ViewModel
@@ -50,8 +72,42 @@ class RecyclerViewFragment : Fragment() ,OnItemClickListener{
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
         })
 
+        categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parentView: AdapterView<*>?,
+                selectedItemView: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedCategory = categories[position]
+                val selectedLanguage = languageSpinner.selectedItem.toString().lowercase()
+
+                articleViewModel.fetchData(selectedCategory,selectedLanguage)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
+        languageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parentView: AdapterView<*>?,
+                selectedItemView: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedLanguage = languages[position].lowercase()
+                val selectedCategory = categorySpinner.selectedItem.toString()
+                articleViewModel.fetchData(selectedCategory, selectedLanguage)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Peut être laissé vide si nécessaire
+            }
+        }
+
         // Appeler la fonction de récupération de données depuis le ViewModel
-        articleViewModel.fetchData()
+        articleViewModel.fetchData("business","us")
 
         return view
     }

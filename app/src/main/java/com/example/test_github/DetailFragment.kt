@@ -22,6 +22,7 @@ class DetailFragment : Fragment() {
     private lateinit var descriptionTextView: TextView
     private lateinit var urlTextView: TextView
     private val articleViewModel: ArticleViewModel by activityViewModels()
+    private lateinit var paragraphTextView:TextView
 
 
 
@@ -37,14 +38,25 @@ class DetailFragment : Fragment() {
         dateTextView = view.findViewById(R.id.dateTextView)
         descriptionTextView = view.findViewById(R.id.descriptionTextView)
         urlTextView = view.findViewById(R.id.urlTextView)
+        paragraphTextView = view.findViewById(R.id.paragraphTextView)
+
 
         // Use the selected article in your UI
         titleTextView.text = articleViewModel.getSelectedArticle().value?.title
-        Glide.with(view.context).load(articleViewModel.getSelectedArticle().value?.urlToImage).fitCenter().into(imageView)
-        authorSourceTextView.text = articleViewModel.getSelectedArticle().value?.author
-        dateTextView.text = articleViewModel.getSelectedArticle().value?.publishedAt
-        descriptionTextView.text = articleViewModel.getSelectedArticle().value?.description
-        urlTextView.text = articleViewModel.getSelectedArticle().value?.url
+        if(articleViewModel.getSelectedArticle().value?.urlToImage==null)
+        {
+            Glide.with(view.context).load("https://cdn.vectorstock.com/i/preview-1x/82/99/no-image-available-like-missing-picture-vector-43938299.jpg").fitCenter().into(imageView)
+
+        } else {
+            Glide.with(view.context).load(articleViewModel.getSelectedArticle().value?.urlToImage)
+                .fitCenter().into(imageView)
+        }
+        authorSourceTextView.text = "Author : "+articleViewModel.getSelectedArticle().value?.author+"\nSource : "+articleViewModel.getSelectedArticle().value?.source?.name
+        dateTextView.text = "Published at " + (articleViewModel.getSelectedArticle().value?.publishedAt?.substring(0,10))
+        descriptionTextView.text = "Description : " +articleViewModel.getSelectedArticle().value?.description
+        paragraphTextView.text="Content : "+articleViewModel.getSelectedArticle().value?.content
+        urlTextView.text = "To view more ... : "+articleViewModel.getSelectedArticle().value?.url
+
 
 
 
