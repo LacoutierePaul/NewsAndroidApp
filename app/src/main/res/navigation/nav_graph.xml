@@ -25,7 +25,9 @@
 
         <action
             android:id="@+id/action_recyclerViewFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
+            app:destination="@id/detailFragment">
+        </action>
+
 
     </fragment>
 
