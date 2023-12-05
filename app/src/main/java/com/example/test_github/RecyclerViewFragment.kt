@@ -1,5 +1,6 @@
 package com.example.test_github
 
+import ArticleViewModel
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -7,6 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
@@ -15,10 +21,6 @@ import retrofit2.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
@@ -26,10 +28,11 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 // RecyclerViewFragment.kt
-class RecyclerViewFragment : Fragment() {
+class RecyclerViewFragment : Fragment() ,OnItemClickListener{
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var txtView: TextView
+    private val articleViewModel: ArticleViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,43 +44,21 @@ class RecyclerViewFragment : Fragment() {
         txtView = view.findViewById(R.id.txtId)
 
         // Appeler la fonction de récupération de données ici
-        getMyDataTestPaul()
+        // Observer pour les modifications des données dans le ViewModel
+        articleViewModel.articleList.observe(viewLifecycleOwner, Observer { articles ->
+            recyclerView.adapter = ArticleAdapter(articles,this)
+            recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        })
+
+        // Appeler la fonction de récupération de données depuis le ViewModel
+        articleViewModel.fetchData()
 
         return view
     }
-
-    private fun getMyDataTestPaul() {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(Apiinterface::class.java)
-
-        val call = retrofit.getData()
-
-        call.enqueue(object : Callback<MyDataItem> {
-            override fun onResponse(call: Call<MyDataItem>, response: Response<MyDataItem>) {
-                if (response.isSuccessful) {
-                    val myDataItem = response.body()
-                    myDataItem?.let {
-                        Log.d("RecyclerViewFragment", "Number of articles: ${it.articles.size}")
-
-                        recyclerView.adapter = ArticleAdapter(it.articles)
-                        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-                        val stringBuilder = StringBuilder()
-                        stringBuilder.append("Statut: ${it.status}\n")
-                        stringBuilder.append("Total des résultats: ${it.totalResults}\n")
-                        txtView.text = stringBuilder.toString()
-                    }
-                } else {
-                    txtView.text = "Échec de la récupération des données"
-                }
-            }
-
-            override fun onFailure(call: Call<MyDataItem>, t: Throwable) {
-                txtView.text = "Erreur : ${t.message}"
-            }
-        })
+    override fun onItemClick(article: Article) {
+        // Faire quelque chose avec l'article cliqué, par exemple ouvrir le fragment de détail
+        articleViewModel.setSelectedArticle(article)
+        findNavController().navigate(R.id.action_recyclerViewFragment_to_detailFragment)
     }
+
 }
