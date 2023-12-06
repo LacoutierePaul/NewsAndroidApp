@@ -15,6 +15,8 @@ class ArticleViewModel : ViewModel() {
      val BASE_URL = "https://newsapi.org/v2/"
     val selectedArticle = MutableLiveData<Article>()
 
+
+
     fun setSelectedArticle(article: Article) {
         selectedArticle.value = article
     }
@@ -34,6 +36,7 @@ class ArticleViewModel : ViewModel() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(Apiinterface::class.java)
+
 
         val call = retrofit.getData(country = country, category = category, apiKey = "150c1cb0b4e644e98f794f4d1a14be2e")
 
