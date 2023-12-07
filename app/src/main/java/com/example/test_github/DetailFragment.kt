@@ -1,5 +1,6 @@
 package com.example.test_github
 
+import ArticleViewModel
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,21 +8,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 
+// DetailFragment.kt
 class DetailFragment : Fragment() {
-
-    companion object {
-        private const val ARG_ARTICLE = "article"
-
-        fun newInstance(article: Article): DetailFragment {
-            val fragment = DetailFragment()
-            val args = Bundle()
-            args.putSerializable(ARG_ARTICLE, article)
-            fragment.arguments = args
-            return fragment
-        }
-    }
 
     private lateinit var titleTextView: TextView
     private lateinit var imageView: ImageView
@@ -29,10 +21,13 @@ class DetailFragment : Fragment() {
     private lateinit var dateTextView: TextView
     private lateinit var descriptionTextView: TextView
     private lateinit var urlTextView: TextView
+    private val articleViewModel: ArticleViewModel by activityViewModels()
+    private lateinit var paragraphTextView:TextView
+
+
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_detail, container, false)
@@ -43,21 +38,37 @@ class DetailFragment : Fragment() {
         dateTextView = view.findViewById(R.id.dateTextView)
         descriptionTextView = view.findViewById(R.id.descriptionTextView)
         urlTextView = view.findViewById(R.id.urlTextView)
+        paragraphTextView = view.findViewById(R.id.paragraphTextView)
 
-        val article = arguments?.getSerializable(ARG_ARTICLE) as? Article
-        article?.let {
-            titleTextView.text = it.title
-            Glide.with(view.context).load(article.urlToImage).fitCenter().into(imageView)
-            authorSourceTextView.text = "${it.author} - ${it.source}"
-            dateTextView.text = it.publishedAt
-            descriptionTextView.text = it.description
-            urlTextView.text = it.url
+
+        // Use the selected article in your UI
+        titleTextView.text = articleViewModel.getSelectedArticle().value?.title
+        if(articleViewModel.getSelectedArticle().value?.urlToImage==null)
+        {
+            Glide.with(view.context).load("https://cdn.vectorstock.com/i/preview-1x/82/99/no-image-available-like-missing-picture-vector-43938299.jpg").fitCenter().into(imageView)
+
+        } else {
+            Glide.with(view.context).load(articleViewModel.getSelectedArticle().value?.urlToImage)
+                .fitCenter().into(imageView)
         }
+        authorSourceTextView.text = "Author : "+articleViewModel.getSelectedArticle().value?.author+"\nSource : "+articleViewModel.getSelectedArticle().value?.source?.name
+        dateTextView.text = "Published at " + (articleViewModel.getSelectedArticle().value?.publishedAt?.substring(0,10))
+        descriptionTextView.text = "Description : " +articleViewModel.getSelectedArticle().value?.description
+        paragraphTextView.text="Content : "+articleViewModel.getSelectedArticle().value?.content
+        urlTextView.text = "To view more ... : "+articleViewModel.getSelectedArticle().value?.url
+
+
+
+
+        // Autre manière de récupere les données avec des observes
+       /*
+        articleViewModel.selectedArticle.observe(this.viewLifecycleOwner) {
+            authorSourceTextView.text = (it.author)
+        }
+        articleViewModel.getSelectedArticle().observe(this.viewLifecycleOwner) {
+            descriptionTextView.text = (it.description)
+        }*/
 
         return view
     }
-}
-
-private fun Bundle.putSerializable(argArticle: String, article: Article) {
-
 }

@@ -1,5 +1,6 @@
 package com.example.test_github
 
+import ArticleViewModel
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Network
@@ -8,9 +9,14 @@ import android.net.NetworkRequest
 import  androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.Button
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -202,11 +208,15 @@ class MainActivity : AppCompatActivity() {
                     myStringBuilder.append(myData.title)
                     myStringBuilder.append("\n")
 
-                }
-                // on change un peu de la vidéo ici
-                val txtView: TextView = findViewById(R.id.txtId)
-                txtView.text = myStringBuilder
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+    }
 
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment)
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
             }
 
             override fun onFailure(call: Call<List<MyDataItem>?>, t: Throwable) {
