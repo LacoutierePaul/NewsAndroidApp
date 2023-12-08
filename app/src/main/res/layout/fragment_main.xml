@@ -11,8 +11,8 @@
         android:id="@+id/buttonNavigate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Navigate to RecyclerView Fragment"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:text="Navigate to RecyclerView Fragment" />
 
     <Button
         android:id="@+id/buttonLogout"
