@@ -1,9 +1,7 @@
 package com.example.test_github
 
-import ArticleViewModel
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,18 +9,13 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.*
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 /**
@@ -30,14 +23,18 @@ import retrofit2.converter.gson.GsonConverterFactory
  * Use the [RecyclerViewFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
 // RecyclerViewFragment.kt
-class RecyclerViewFragment : Fragment() ,OnItemClickListener{
+class RecyclerViewFragment: Fragment(), OnItemClickListener {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var txtView: TextView
-    private val articleViewModel: ArticleViewModel by activityViewModels()
+    private lateinit var connectionTxt: TextView
     private lateinit var categorySpinner: Spinner
     private lateinit var languageSpinner: Spinner
+    private val articleViewModel: ArticleViewModel by activityViewModels()
+
+
 
 
 
@@ -45,10 +42,17 @@ class RecyclerViewFragment : Fragment() ,OnItemClickListener{
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val view = inflater.inflate(R.layout.fragment_recycler_view, container, false)
+
+        //articleViewModel = ViewModelProvider(this).get(ArticleViewModel::class.java)
 
         recyclerView = view.findViewById(R.id.recyclerView)
         txtView = view.findViewById(R.id.txtId)
+        connectionTxt = view.findViewById(R.id.connectionTxt)
+
+        connectionTxt.text = if(articleViewModel.connectionUp) "online" else "offline"
+
         categorySpinner = view.findViewById(R.id.categorySpinner)
         languageSpinner = view.findViewById(R.id.languageSpinner)
 
@@ -68,8 +72,13 @@ class RecyclerViewFragment : Fragment() ,OnItemClickListener{
         // Appeler la fonction de récupération de données ici
         // Observer pour les modifications des données dans le ViewModel
         articleViewModel.articleList.observe(viewLifecycleOwner, Observer { articles ->
+            Log.i("RecyclerViewFragment", "data changed")
             recyclerView.adapter = ArticleAdapter(articles,this)
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        })
+
+        articleViewModel.connectionState.observe(viewLifecycleOwner, Observer {
+            connectionTxt.text = it
         })
 
         categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -79,10 +88,27 @@ class RecyclerViewFragment : Fragment() ,OnItemClickListener{
                 position: Int,
                 id: Long
             ) {
-                val selectedCategory = categories[position]
-                val selectedLanguage = languageSpinner.selectedItem.toString().lowercase()
 
-                articleViewModel.fetchData(selectedCategory,selectedLanguage)
+                Log.i("main","category selected")
+
+                articleViewModel.selectedCategory = categories[position]
+                articleViewModel.selectedLanguage = languageSpinner.selectedItem.toString().lowercase()
+
+                if(articleViewModel.connectionUp){
+                    Log.i("category","connection up fetching data")
+                    articleViewModel.fetchData(articleViewModel.selectedCategory,articleViewModel.selectedLanguage)
+
+                }
+                else{
+                    //accès bdd
+
+                    Log.i("category","connection down fetching data from bdd")
+
+                    articleViewModel.fetchFromDB(articleViewModel.selectedCategory,articleViewModel.selectedLanguage)
+
+                }
+
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -96,9 +122,31 @@ class RecyclerViewFragment : Fragment() ,OnItemClickListener{
                 position: Int,
                 id: Long
             ) {
-                val selectedLanguage = languages[position].lowercase()
-                val selectedCategory = categorySpinner.selectedItem.toString()
-                articleViewModel.fetchData(selectedCategory, selectedLanguage)
+                Log.i("main","language selected")
+
+
+                articleViewModel.selectedLanguage = languages[position].lowercase()
+                articleViewModel.selectedCategory = categorySpinner.selectedItem.toString()
+
+
+                if(articleViewModel.connectionUp){
+                    Log.i("language","connection up fetching data")
+                    articleViewModel.fetchData(articleViewModel.selectedCategory, articleViewModel.selectedLanguage)
+
+                    //if(articleViewModel.apiCallSuccess){
+                    //    previousCategory = selectedCategory
+                    //}
+                    //else{
+                    //    selectedCategory = previousCategory
+                    //}
+
+                }
+                else{
+                    Log.i("language","connection down fetching data from bdd")
+
+                    articleViewModel.fetchFromDB(articleViewModel.selectedCategory, articleViewModel.selectedLanguage)
+
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -111,6 +159,8 @@ class RecyclerViewFragment : Fragment() ,OnItemClickListener{
 
         return view
     }
+
+
     override fun onItemClick(article: Article) {
         // Faire quelque chose avec l'article cliqué, par exemple ouvrir le fragment de détail
         articleViewModel.setSelectedArticle(article)

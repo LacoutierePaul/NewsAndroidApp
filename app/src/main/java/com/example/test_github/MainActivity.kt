@@ -1,43 +1,8 @@
 package com.example.test_github
 
-import ArticleViewModel
-import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.Network
-import android.net.NetworkCapabilities
-import android.net.NetworkRequest
-import  androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.TextView
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.lifecycle.LifecycleCoroutineScope
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.RecyclerView
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.Room
-import com.example.test_github.Utils.ArticleDAO
-import com.example.test_github.Utils.ArticleDatabase
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
-
+import androidx.appcompat.app.AppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 
 /* la vidéo du goat pour retrofit :
 https://www.youtube.com/watch?v=5gFrXGbQsc8
@@ -45,67 +10,19 @@ https://www.youtube.com/watch?v=5gFrXGbQsc8
 
 
 //const val BASE_URL = "https://jsonplaceholder.typicode.com/"
-const val BASE_URL = "https://newsapi.org/v2/"
+//const val BASE_URL = "https://newsapi.org/v2/"
 
-class MainActivity : AppCompatActivity() {
-
-    //Indique les besoins réseaux de l'app
-    private val networkRequest = NetworkRequest.Builder()
-        .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-        .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-        .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
-        .addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
-        .build()
-
-    //Définie les fonctions appellées automatiquement en fct d'évenements réseau
-    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
-
-        //Appellé qd réseau dispo
-        //Faire l'appel API
-        // network is available for use
-        override fun onAvailable(network: Network) {
-            Log.i("main","available")
-            super.onAvailable(network)
-        }
-
-        //Appellé qd caractéristiques changent ex: de 4g vers wifi
-        //Probablement pas nécessaire
-        // Network capabilities have changed for the network
-        override fun onCapabilitiesChanged(
-            network: Network,
-            networkCapabilities: NetworkCapabilities
-        ) {
-            super.onCapabilitiesChanged(network, networkCapabilities)
-            val unmetered =
-                networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
-        }
-
-        //Appellé qd réseau perdu
-        //Faire la save
-        // lost network connection
-        override fun onLost(network: Network) {
-            Log.i("main","lost")
-            super.onLost(network)
-        }
-    }
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity()  {
 
 
     //Basse de donnée room, idéalement, à passer par injection de dépendance
-    private val db by lazy {
-        Room.databaseBuilder(
-            applicationContext,
-            ArticleDatabase::class.java,
-            "articles.db"
-        ).allowMainThreadQueries().build()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        //Démarre les notifs sur l'état du réseau
-        val connectivityManager = getSystemService(ConnectivityManager::class.java) as ConnectivityManager
-        connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
+
+        setContentView(R.layout.activity_main)
 
         //Test de l'accès à la bdd via room
         //testRoom()
@@ -113,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         //getMyDataTestPaul()
     }
 
+    /*
     private fun testRoom(){
 
         val articleDAO = db.dao;
@@ -181,7 +99,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    }
+    }*/
 
     /*
     private fun getMyData() {
@@ -228,6 +146,7 @@ class MainActivity : AppCompatActivity() {
 
      */
 
+    /*
     private fun getMyData() {
         // Initialisation de Retrofit
         val retrofit = Retrofit.Builder()
@@ -283,9 +202,9 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+    */
 
-
-    private fun getMyDataTestPaul() {
+    /*private fun getMyDataTestPaul() {
         // Initialisation de Retrofit
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -330,6 +249,6 @@ class MainActivity : AppCompatActivity() {
                 txtView.text = "Erreur : ${t.message}"
             }
         })
-    }
+    }*/
 
 }
