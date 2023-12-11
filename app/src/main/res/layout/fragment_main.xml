@@ -15,6 +15,15 @@
         android:text="Navigate to RecyclerView Fragment" />
 
     <Button
+        android:id="@+id/buttonPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonNavigate"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:text="Post" />
+
+    <Button
         android:id="@+id/buttonLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
