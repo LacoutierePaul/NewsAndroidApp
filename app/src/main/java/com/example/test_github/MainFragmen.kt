@@ -2,7 +2,6 @@ package com.example.test_github
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +10,22 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.room.PrimaryKey
+import com.example.test_github.Utils.ArticleDAO
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import com.example.test_github.Utils.ArticleDAO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 // MainFragment.kt
 class MainFragment : Fragment() {
+    lateinit var articleDAO: ArticleDAO
+    private val articleViewModel: ArticleViewModel by activityViewModels()
+
+
+
+
     private val articleViewModel: ArticleViewModel by activityViewModels()
     private lateinit var articleDAO: ArticleDAO
 
@@ -38,11 +47,20 @@ class MainFragment : Fragment() {
             logout()
         }
 
+        val buttonPost=view.findViewById<Button>(R.id.buttonPost)
+        buttonPost.setOnClickListener{
+            post()
+        }
         articleDAO = articleViewModel.articlesDAO
         post()
 
         return view
     }
+
+    private fun post() { // Obtenez une instance de votre ArticleDAO (injection de dépendance avec Dagger Hilt)
+        articleViewModel.post();
+    }
+
 
     private fun logout() {
         // Supprimer les informations d'identification de SharedPreferences

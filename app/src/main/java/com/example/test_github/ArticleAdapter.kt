@@ -26,7 +26,7 @@ class ArticleAdapter(
         private val imageView = itemView.findViewById<ImageView>(R.id.imageView)
 
         fun bind(article: Article) {
-            textSource.text = "Source: ${article.source.name}"
+            textSource.text = "Source: ${article.source?.name}"
             textAuthor.text = "Auteur: ${article.author}"
             textTitle.text = "Title: ${article.title}"
             if(article.urlToImage==null)
