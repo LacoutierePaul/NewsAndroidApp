@@ -81,7 +81,6 @@ class MainFragment : Fragment() {
 
         }
 
-        articleDAO
 
 
     }
