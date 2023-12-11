@@ -4,9 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
-import com.example.test_github.Article
 import com.example.test_github.ArticleDB
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ArticleDAO {
@@ -30,4 +28,10 @@ interface ArticleDAO {
 
     @Query("SELECT * FROM articles WHERE category = :category and language = :language")
     fun getArticlesCategoryLanguage(category: String, language: String): MutableList<ArticleDB>
+
+    @Query("SELECT DISTINCT category FROM articles")
+    fun getCategories(): MutableList<String>
+
+    @Query("SELECT DISTINCT language FROM articles")
+    fun getLanguage(): MutableList<String>
 }
