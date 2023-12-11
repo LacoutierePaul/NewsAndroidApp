@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.example.test_github.Utils.ArticleDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -141,6 +142,7 @@ class ArticleViewModel @Inject constructor(
 
             val listArticleDB=  articlesDAO.getArticlesCategoryLanguage(category, language)
 
+
             listArticleDatabase =  ArticleDB.toArticleList(listArticleDB)
 
             Log.i("RecView", listArticleDB.toString())
@@ -217,6 +219,22 @@ class ArticleViewModel @Inject constructor(
 
     }
 
-
-
+    fun post() {
+        val newArticle = ArticleDB(
+            source = Source(sourceId = "sourceId", name = "SourceName"),
+            author = "Auteur",
+            title = "Nouvel Article",
+            description = "Description de l'article",
+            url = "urltestbalalal",
+            urlToImage = "Url de l'image",
+            publishedAt = "Date de publication",
+            content = "Contenu de l'article",
+            category = "general",
+            language = "us"
+        )
+        viewModelScope.launch(context=Dispatchers.IO){
+            articlesDAO.upsertArticle(newArticle)
+        }
+        Log.i("ADD" ,"article Added")
+    }
 }
