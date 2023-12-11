@@ -103,51 +103,6 @@ class MainActivity : AppCompatActivity()  {
 
     /*
     private fun getMyData() {
-        val retrofitBuilder = Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(BASE_URL)
-                .build()
-                .create(Apiinterface::class.java)
-
-        val retrofitData =retrofitBuilder.getData()
-
-        retrofitData.enqueue(object : Callback<List<MyDataItem>?> {
-            override fun onResponse(
-                call: Call<List<MyDataItem>?>,
-                response: Response<List<MyDataItem>?>
-            ) {
-                val responseBody = response.body()!!
-
-                val myStringBuilder = StringBuilder()
-                for(myData in responseBody){ // C'est la qu'on met nos infos
-
-                    myStringBuilder.append(myData.id)
-                    myStringBuilder.append("\n")
-                    myStringBuilder.append(myData.title)
-                    myStringBuilder.append("\n")
-
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment)
-        return navController.navigateUp() || super.onSupportNavigateUp()
-    }
-            }
-
-            override fun onFailure(call: Call<List<MyDataItem>?>, t: Throwable) {
-                Log.d("MainActivity", "onFailure: "+t.message)
-            }
-        })
-
-    }
-
-     */
-
-    /*
-    private fun getMyData() {
         // Initialisation de Retrofit
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
