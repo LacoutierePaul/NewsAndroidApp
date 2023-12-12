@@ -1,4 +1,4 @@
-package com.example.test_github.Fragments
+package com.example.test_github
 
 import com.example.test_github.MyDataItem
 import retrofit2.Call
