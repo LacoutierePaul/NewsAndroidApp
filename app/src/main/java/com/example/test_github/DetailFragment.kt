@@ -43,9 +43,9 @@ class DetailFragment : Fragment() {
 
         // Use the selected article in your UI
         titleTextView.text = articleViewModel.getSelectedArticle().value?.title
-        if(articleViewModel.getSelectedArticle().value?.urlToImage==null)
+        if(articleViewModel.getSelectedArticle().value?.urlToImage==null || articleViewModel.getSelectedArticle().value?.urlToImage=="default")
         {
-            Glide.with(view.context).load("https://cdn.vectorstock.com/i/preview-1x/82/99/no-image-available-like-missing-picture-vector-43938299.jpg").fitCenter().into(imageView)
+           // Glide.with(view.context).load("https://cdn.vectorstock.com/i/preview-1x/82/99/no-image-available-like-missing-picture-vector-43938299.jpg").fitCenter().into(imageView)
 
         } else {
             Glide.with(view.context).load(articleViewModel.getSelectedArticle().value?.urlToImage)
