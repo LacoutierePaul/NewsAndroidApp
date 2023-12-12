@@ -8,8 +8,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import com.example.test_github.Fragments.Apiinterface
 import com.example.test_github.Utils.ArticleDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -143,7 +143,7 @@ class ArticleViewModel @Inject constructor(
             val listArticleDB=  articlesDAO.getArticlesCategoryLanguage(category, language)
 
 
-            listArticleDatabase =  ArticleDB.toArticleList(listArticleDB)
+            listArticleDatabase = ArticleDB.toArticleList(listArticleDB)
 
             Log.i("RecView", listArticleDB.toString())
 
@@ -162,7 +162,11 @@ class ArticleViewModel @Inject constructor(
         viewModelScope.launch(context = Dispatchers.IO) {
 
             if(articlesList != null){
-                articlesDAO.upsertAllArticle(*Article.toArticleDBList(articlesList, category, language).toTypedArray());
+                articlesDAO.upsertAllArticle(*Article.toArticleDBList(
+                    articlesList,
+                    category,
+                    language
+                ).toTypedArray());
             }
 
         }
@@ -227,7 +231,7 @@ class ArticleViewModel @Inject constructor(
             description = "Description de l'article",
             url = "urltestbalalal",
             urlToImage = "Url de l'image",
-            publishedAt = "Date de publication",
+            publishedAt = "12:12:2023:11321",
             content = "Contenu de l'article",
             category = "general",
             language = "us"

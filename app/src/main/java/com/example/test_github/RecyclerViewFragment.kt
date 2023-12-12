@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -58,16 +57,6 @@ class RecyclerViewFragment: Fragment(), OnItemClickListener {
 
 
         //set up Category spinner
-        val categories = resources.getStringArray(R.array.categories)
-        val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        categorySpinner.adapter = spinnerAdapter
-
-        //set up languages spinner
-        val languages = resources.getStringArray(R.array.language)
-        val languageAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, languages)
-        languageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        languageSpinner.adapter = languageAdapter
 
         // Appeler la fonction de récupération de données ici
         // Observer pour les modifications des données dans le ViewModel
@@ -91,7 +80,7 @@ class RecyclerViewFragment: Fragment(), OnItemClickListener {
 
                 Log.i("main","category selected")
 
-                articleViewModel.selectedCategory = categories[position]
+                articleViewModel.selectedCategory = categorySpinner.selectedItem.toString().lowercase()
                 articleViewModel.selectedLanguage = languageSpinner.selectedItem.toString().lowercase()
 
                 if(articleViewModel.connectionUp){
@@ -125,8 +114,8 @@ class RecyclerViewFragment: Fragment(), OnItemClickListener {
                 Log.i("main","language selected")
 
 
-                articleViewModel.selectedLanguage = languages[position].lowercase()
-                articleViewModel.selectedCategory = categorySpinner.selectedItem.toString()
+                articleViewModel.selectedLanguage = languageSpinner.selectedItem.toString().lowercase()
+                articleViewModel.selectedCategory = categorySpinner.selectedItem.toString().lowercase()
 
 
                 if(articleViewModel.connectionUp){

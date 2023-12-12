@@ -39,8 +39,9 @@ class MainFragment : Fragment() {
         }
 
         articleDAO = articleViewModel.articlesDAO
-        post()
-
+        view.findViewById<Button>(R.id.buttonPost).setOnClickListener{
+            findNavController().navigate(R.id.action_mainFragment_to_newPostFragment)
+        }
         return view
     }
 
@@ -64,11 +65,11 @@ class MainFragment : Fragment() {
             "test",
             "test",
             "testA",
-            "test",
-            "test",
+            null,
+            "12:12:2023:11321",
             "test",
 
-            "Business",
+            "Health",
             "fr",
         )
 

@@ -18,8 +18,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:src="@drawable/ic_launcher_background"
-            />
+            android:src="@drawable/no_image" />
 
         <TextView
             android:id="@+id/textTitle"
