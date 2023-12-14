@@ -21,10 +21,8 @@ class ArticleAdapter(
     inner class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val textSource: TextView = itemView.findViewById(R.id.textSource)
         private val textTitle: TextView = itemView.findViewById(R.id.textTitle)
-
         private val textAuthor: TextView = itemView.findViewById(R.id.textAuthor)
         private val imageView = itemView.findViewById<ImageView>(R.id.imageView)
-
 
         fun bind(article: Article) {
             textSource.text = "Source: ${article.source?.name}"
@@ -39,7 +37,6 @@ class ArticleAdapter(
 
         }
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.new_holder, parent, false)
@@ -47,11 +44,15 @@ class ArticleAdapter(
     }
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
+        val current = articles[position]
         holder.bind(articles[position])
+        holder.itemView.setOnClickListener {
+            // Utilisez l'interface pour gérer l'événement de clic
+            itemClickListener.onItemClick(current)
+        }
     }
 
     override fun getItemCount(): Int {
         return articles.size
     }
 }
-
