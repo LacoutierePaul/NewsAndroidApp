@@ -9,14 +9,33 @@
 
     <TextView
         android:id="@+id/txtId"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="You can a category and a language!"
-        android:textSize="18sp"
-        android:layout_marginTop="10dp"
+        android:background="#ADD8E6"
+        android:text="You can chose a category and a language!"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@android:color/black"
+        />
+
+    <TextView
+        android:id="@+id/connectionTxt"
+        android:background="#ADD8E6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:gravity="center"
+        android:text="Offline"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtId"
+        android:textColor="@android:color/black"
+        />
 
     <Spinner
         android:id="@+id/categorySpinner"
@@ -29,7 +48,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtId" />
+        app:layout_constraintTop_toBottomOf="@+id/connectionTxt" />
 
 
     <Spinner
@@ -37,24 +56,24 @@
         android:layout_width="180dp"
         android:layout_height="48dp"
         android:layout_marginTop="12dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:entries="@array/language"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/categorySpinner"
-        app:layout_constraintTop_toBottomOf="@+id/txtId" />
+        app:layout_constraintTop_toBottomOf="@+id/connectionTxt" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="10dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtId"
+        app:layout_constraintTop_toBottomOf="@+id/languageSpinner"
         app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/new_holder" />
 

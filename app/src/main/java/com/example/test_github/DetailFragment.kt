@@ -1,6 +1,5 @@
 package com.example.test_github
 
-import ArticleViewModel
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 
 // DetailFragment.kt
@@ -30,6 +28,8 @@ class DetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
         val view = inflater.inflate(R.layout.fragment_detail, container, false)
 
         titleTextView = view.findViewById(R.id.titleTextView)
@@ -43,9 +43,9 @@ class DetailFragment : Fragment() {
 
         // Use the selected article in your UI
         titleTextView.text = articleViewModel.getSelectedArticle().value?.title
-        if(articleViewModel.getSelectedArticle().value?.urlToImage==null)
+        if(articleViewModel.getSelectedArticle().value?.urlToImage==null || articleViewModel.getSelectedArticle().value?.urlToImage=="default")
         {
-            Glide.with(view.context).load("https://cdn.vectorstock.com/i/preview-1x/82/99/no-image-available-like-missing-picture-vector-43938299.jpg").fitCenter().into(imageView)
+           // Glide.with(view.context).load("https://cdn.vectorstock.com/i/preview-1x/82/99/no-image-available-like-missing-picture-vector-43938299.jpg").fitCenter().into(imageView)
 
         } else {
             Glide.with(view.context).load(articleViewModel.getSelectedArticle().value?.urlToImage)
@@ -72,3 +72,4 @@ class DetailFragment : Fragment() {
         return view
     }
 }
+

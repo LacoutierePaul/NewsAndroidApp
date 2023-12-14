@@ -1,5 +1,6 @@
 package com.example.test_github
 
+import com.example.test_github.MyDataItem
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

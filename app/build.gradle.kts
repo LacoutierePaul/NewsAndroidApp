@@ -1,7 +1,10 @@
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
+
 }
 
 android {
@@ -40,6 +43,10 @@ android {
 dependencies {
 
 
+    //Dagger Hilt dependency injection
+
+    implementation("com.google.dagger:hilt-android:2.49")
+    kapt ("com.google.dagger:hilt-compiler:2.49")
 
     implementation("androidx.room:room-ktx:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
@@ -67,12 +74,17 @@ dependencies {
 
     implementation ("com.github.bumptech.glide:glide:4.11.0")
 
-    implementation ("androidx.navigation:navigation-fragment-ktx:2.4.0")
-    implementation ("androidx.navigation:navigation-ui-ktx:2.4.0")
+    implementation ("androidx.navigation:navigation-fragment-ktx:2.7.5")
+    implementation ("androidx.navigation:navigation-ui-ktx:2.7.5")
 
 
 
     implementation ("androidx.cardview:cardview:1.0.0")
 
 
+}
+
+kapt {
+
+    correctErrorTypes = true
 }
