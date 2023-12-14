@@ -11,25 +11,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.room.PrimaryKey
-import com.example.test_github.Utils.ArticleDAO
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import com.example.test_github.Utils.ArticleDAO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 // MainFragment.kt
 class MainFragment : Fragment() {
-    lateinit var articleDAO: ArticleDAO
-    private val articleViewModel: ArticleViewModel by activityViewModels()
-
-
-
-
-    private val articleViewModel: ArticleViewModel by activityViewModels()
-    private lateinit var articleDAO: ArticleDAO
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +39,6 @@ class MainFragment : Fragment() {
         buttonPost.setOnClickListener{
             post()
         }
-        articleDAO = articleViewModel.articlesDAO
         view.findViewById<Button>(R.id.buttonPost).setOnClickListener{
             findNavController().navigate(R.id.action_mainFragment_to_newPostFragment)
         }
@@ -59,7 +46,8 @@ class MainFragment : Fragment() {
     }
 
     private fun post() { // Obtenez une instance de votre ArticleDAO (injection de dépendance avec Dagger Hilt)
-        articleViewModel.post();
+        findNavController().navigate(R.id.action_mainFragment_to_newPostFragment)
+
     }
 
 
@@ -75,32 +63,5 @@ class MainFragment : Fragment() {
         findNavController().navigate(R.id.action_mainFragment_to_loginFragment)
     }
 
-    private fun post(){
 
-        val article = ArticleDB(
-            Source("test", "test"),
-            "test",
-            "test",
-            "test",
-            "testA",
-            null,
-            "12:12:2023:11321",
-            "test",
-
-            "Health",
-            "fr",
-        )
-
-
-        lifecycleScope.launch(context = Dispatchers.IO) {
-
-            articleDAO.upsertArticle(article)
-
-            Log.i("upsert", "upsert")
-
-        }
-
-
-
-    }
 }

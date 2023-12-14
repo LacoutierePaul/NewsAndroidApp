@@ -30,10 +30,11 @@ class ArticleAdapter(
             textTitle.text = "Title: ${article.title}"
             if(article.urlToImage==null || article.urlToImage=="default")
             {
-               //Glide.with(itemView.context).load("https://cdn.vectorstock.com/i/preview-1x/82/99/no-image-available-like-missing-picture-vector-43938299.jpg").fitCenter().into(imageView)
+                //Glide.with(itemView.context).load("https://cdn.vectorstock.com/i/preview-1x/82/99/no-image-available-like-missing-picture-vector-43938299.jpg").fitCenter().into(imageView)
             } else {
                 Glide.with(itemView.context).load(article.urlToImage).fitCenter().into(imageView)
             }
+
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
