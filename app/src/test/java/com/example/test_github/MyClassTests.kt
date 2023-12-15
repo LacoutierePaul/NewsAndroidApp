@@ -25,7 +25,7 @@ class MyClassTests {
  */
 
     @Test
-    fun CheckCredentials(){
+    fun CheckCredentialsTest(){
         assertTrue(checkCredentials("admin", "admin"))
     }
     private fun checkCredentials(username: String, password: String): Boolean {
