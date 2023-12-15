@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.test_github.Utils.ArticleDAO
 import com.example.test_github.Utils.ArticleDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -23,8 +24,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ArticleViewModel @Inject constructor(
-    private val database: ArticleDatabase,
-    private val connectivityManager: ConnectivityManager
+    private val networkRequest: NetworkRequest,
+    public val articlesDAO: ArticleDAO,
+    private val connectivityManager: ConnectivityManager,
+    private val retrofit: Apiinterface
 ): ViewModel() {
     val BASE_URL = "https://newsapi.org/v2/"
     val selectedArticle = MutableLiveData<Article>()
@@ -34,16 +37,10 @@ class ArticleViewModel @Inject constructor(
     var skippedStartUpNetworkState = false
     var selectedCategory = "business"
     var selectedLanguage = "us"
-    val articlesDAO = database.dao
 
 
-    //Indique les besoins réseaux de l'app
-    val networkRequest = NetworkRequest.Builder()
-        .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-        .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-        .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
-        .addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
-        .build()
+
+
 
     //Définie les fonctions appellées automatiquement en fct d'évenements réseau
     val networkCallback = object : ConnectivityManager.NetworkCallback() {
@@ -189,12 +186,6 @@ class ArticleViewModel @Inject constructor(
 
 
     fun fetchData(category:String,country:String) {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(Apiinterface::class.java)
-
 
         val call = retrofit.getData(country = country, category = category, apiKey = "150c1cb0b4e644e98f794f4d1a14be2e")
 
