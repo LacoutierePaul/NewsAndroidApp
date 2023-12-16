@@ -47,6 +47,7 @@ dependencies {
     //kapt ("com.google.dagger:hilt-compiler:2.49")
 
     implementation("com.google.dagger:hilt-android:2.49")
+    implementation("androidx.fragment:fragment-testing:1.6.2")
 
     kapt("com.google.dagger:hilt-compiler:2.49")
     // bdd Room
@@ -80,7 +81,6 @@ dependencies {
     // pour tester la connexion
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:3.11.2")
-
     testImplementation("org.mockito:mockito-core:3.11.2")
 }
 
