@@ -4,21 +4,11 @@ import android.util.Log
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-data class MyDataItem( // quand on va sur le lien https://jsonplaceholder.typicode.com/posts
-    // les datas sont sous la forme
-    /*
-    val body: String,
-    val id: Int,
-    val title: String,
-    val userId: Int
-
-     */
-
+data class MyDataItem(
     val status: String,
     val totalResults: Int,
     val articles: ArrayList<Article>
 )
-
 
 @Entity(tableName="articles")
 data class ArticleDB(
@@ -69,15 +59,12 @@ data class ArticleDB(
                 )
         }
 
-
-
         fun toArticleList(articleDBList: MutableList<ArticleDB>): MutableList<Article>
         {
             return articleDBList.map { Article( it.source ?: Source("default", "default"), it.author ?: "default", it.title ?: "default", it.description ?: "default", it.url ?: "default", it.urlToImage ?: "default", it.publishedAt ?: "default", it.content ?: "default") }.toMutableList()
         }
     }
 }
-
 
 data class Article(
 

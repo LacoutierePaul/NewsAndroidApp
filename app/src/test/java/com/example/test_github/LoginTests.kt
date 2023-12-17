@@ -28,18 +28,6 @@ class LoginTests : Fragment(){
         assertTrue(checkCredentials("admin", "admin"))
     }
 
-/*
-    @Test
-    fun addDatabase(){
-        val articlesDAO: ArticleDAOImpl = ArticleDAOImpl()
-
-        // val articleViewModel : ArticleViewModel = ArticleViewModel(, articlesDAO)
-
-    }
- */
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (isUserLoggedIn()) {

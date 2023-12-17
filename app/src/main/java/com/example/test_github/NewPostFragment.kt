@@ -42,9 +42,6 @@ class newPostFragment : Fragment() {
         val languageSpinner = view.findViewById<Spinner>(R.id.languageSpinner)
         val etUrl=view.findViewById<EditText>(R.id.etUrl)
 
-
-
-
         btnPost.setOnClickListener {
             // Récupérer les informations saisies par l'utilisateur
             val title = etTitle.text.toString()
@@ -56,8 +53,6 @@ class newPostFragment : Fragment() {
             val category =categorySpinner.selectedItem.toString().lowercase()
             val language=languageSpinner.selectedItem.toString().lowercase()
             val url=etUrl.text.toString()
-
-
 
             // Vérifier que toutes les informations nécessaires sont fournies
             if (title.isNotEmpty() && content.isNotEmpty() && description.isNotEmpty() && author.isNotEmpty() && source.isNotEmpty() && url.isNotEmpty()){

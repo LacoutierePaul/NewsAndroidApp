@@ -42,7 +42,6 @@ object NetworkModule {
     }
 }
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
@@ -58,11 +57,7 @@ object DatabaseModule {
             "articles.db"
         ).fallbackToDestructiveMigration().build().dao //retirer allowMainThreadQueries et fallbackToDestructiveMigration une dev fini
     }
-
 }
-
-
-
 @Module
 @InstallIn(SingletonComponent::class)
 object ApiModule {

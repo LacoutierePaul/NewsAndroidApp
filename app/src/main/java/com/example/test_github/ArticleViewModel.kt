@@ -21,7 +21,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
-
 @HiltViewModel
 class ArticleViewModel @Inject constructor(
     private val networkRequest: NetworkRequest,
@@ -38,10 +37,6 @@ class ArticleViewModel @Inject constructor(
     var selectedCategory = "business"
     var selectedLanguage = "us"
 
-
-
-
-
     //Définie les fonctions appellées automatiquement en fct d'évenements réseau
     val networkCallback = object : ConnectivityManager.NetworkCallback() {
 
@@ -53,110 +48,61 @@ class ArticleViewModel @Inject constructor(
             super.onAvailable(network)
 
             OnNetworkAvailable()
-
         }
-
         //Appellé qd réseau perdu
         //Faire la save
         // lost network connection
         override fun onLost(network: Network) {
             Log.i("main","network lost")
             super.onLost(network)
-
-
             OnNetworkLost()
-
         }
     }
 
-
     init {
-
         connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
-
     }
 
     override fun onCleared() {
         super.onCleared()
-
         connectivityManager.unregisterNetworkCallback(networkCallback)
-
     }
 
     fun OnNetworkAvailable(){
-
-
         connectionUp = true
-
         connectionState.postValue("online")
-
         Log.i("networkAvailable","fetching data")
-
         fetchData(selectedCategory, selectedLanguage);
         Log.i("networkAvailable","api call success: " + apiCallSuccess)
-
-        //if(articleViewModel.apiCallSuccess){
-        //    previousCategory = selectedCategory
-        //}
-        //else{
-        //    selectedCategory = previousCategory
-        //}
-
-
-
         Log.i("networkAvailable","api call success: " + apiCallSuccess)
     }
 
     fun OnNetworkLost(){
-
         connectionUp = false
-
         connectionState.postValue("offline")
-
-
         if(!apiCallSuccess){
-
             Log.i("main","get from bdd : "+apiCallSuccess)
-
             fetchData(selectedCategory, selectedLanguage)
-
         }
         if(apiCallSuccess){
-
             Log.i("main","save articles : "+apiCallSuccess)
-
             saveToDB(selectedCategory, selectedLanguage)
-
         }
     }
 
     fun fetchFromDB(category: String, language: String){
-
         lateinit var listArticleDatabase: MutableList<Article>
-
         viewModelScope.launch(context = Dispatchers.IO) {
-
             val listArticleDB=  articlesDAO.getArticlesCategoryLanguage(category, language)
-
-
             listArticleDatabase = ArticleDB.toArticleList(listArticleDB)
-
             Log.i("RecView", listArticleDB.toString())
-
             _articleList.postValue(listArticleDatabase)
-
         }
-
     }
 
     fun saveToDB(category: String, language: String){
-
         val articlesList = articleList.value
-
-        //Log.i("save", articlesList.toString())
-
         viewModelScope.launch(context = Dispatchers.IO) {
-
             if(articlesList != null){
                 articlesDAO.upsertAllArticle(*Article.toArticleDBList(
                     articlesList,
@@ -164,11 +110,8 @@ class ArticleViewModel @Inject constructor(
                     language
                 ).toTypedArray());
             }
-
         }
-
     }
-
 
     fun setSelectedArticle(article: Article) {
         selectedArticle.value = article
@@ -178,39 +121,29 @@ class ArticleViewModel @Inject constructor(
         return selectedArticle
     }
 
-
     var _articleList: MutableLiveData<MutableList<Article>> = MutableLiveData()
-
     val articleList: LiveData<MutableList<Article>>
         get() = _articleList
 
-
     fun fetchData(category:String,country:String) {
-
         val call = retrofit.getData(country = country, category = category, apiKey = "150c1cb0b4e644e98f794f4d1a14be2e")
-
         call.enqueue(object : Callback<MyDataItem> {
             override fun onResponse(call: Call<MyDataItem>, response: Response<MyDataItem>) {
                 Log.i("API Call", "On response")
                 if (response.isSuccessful) {
                     Log.i("API Call", "Success")
-
                     val myDataItem = response.body()
                     myDataItem?.let {
                         _articleList.value = it.articles
                     }
                     apiCallSuccess = true
                     Log.i("API Call", apiCallSuccess.toString())
-
                 }
             }
-
             override fun onFailure(call: Call<MyDataItem>, t: Throwable) {
                 Log.e("API Call", "Error: ${t.message}", t)
-
             }
         })
-
     }
 
     fun post() {

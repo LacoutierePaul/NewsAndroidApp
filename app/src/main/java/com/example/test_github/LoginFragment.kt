@@ -11,17 +11,13 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 
-
 /**
  * A simple [Fragment] subclass.
  * Use the [LoginFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
 
-
 class LoginFragment : Fragment() {
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (isUserLoggedIn()) {
@@ -29,7 +25,6 @@ class LoginFragment : Fragment() {
             findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
         }
     }
-
     private fun isUserLoggedIn(): Boolean {
         val sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
         val savedUsername = sharedPreferences.getString("username", null)
@@ -59,7 +54,6 @@ class LoginFragment : Fragment() {
                 Toast.makeText(requireContext(), "Invalid credentials", Toast.LENGTH_SHORT).show()
             }
         }
-
         return view
     }
 

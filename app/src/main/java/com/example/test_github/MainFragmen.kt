@@ -50,7 +50,6 @@ class MainFragment : Fragment() {
 
     }
 
-
     private fun logout() {
         // Supprimer les informations d'identification de SharedPreferences
         val sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)

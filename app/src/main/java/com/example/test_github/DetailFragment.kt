@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 
-// DetailFragment.kt
 class DetailFragment : Fragment() {
 
     private lateinit var titleTextView: TextView
@@ -22,13 +21,10 @@ class DetailFragment : Fragment() {
     private val articleViewModel: ArticleViewModel by activityViewModels()
     private lateinit var paragraphTextView:TextView
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
 
         val view = inflater.inflate(R.layout.fragment_detail, container, false)
 
@@ -46,7 +42,6 @@ class DetailFragment : Fragment() {
         if(articleViewModel.getSelectedArticle().value?.urlToImage==null || articleViewModel.getSelectedArticle().value?.urlToImage=="default")
         {
            // Glide.with(view.context).load("https://cdn.vectorstock.com/i/preview-1x/82/99/no-image-available-like-missing-picture-vector-43938299.jpg").fitCenter().into(imageView)
-
         } else {
             Glide.with(view.context).load(articleViewModel.getSelectedArticle().value?.urlToImage)
                 .fitCenter().into(imageView)
@@ -57,9 +52,6 @@ class DetailFragment : Fragment() {
         paragraphTextView.text="Content : "+articleViewModel.getSelectedArticle().value?.content
         urlTextView.text = "To view more ... : "+articleViewModel.getSelectedArticle().value?.url
 
-
-
-
         // Autre manière de récupere les données avec des observes
        /*
         articleViewModel.selectedArticle.observe(this.viewLifecycleOwner) {
@@ -68,7 +60,6 @@ class DetailFragment : Fragment() {
         articleViewModel.getSelectedArticle().observe(this.viewLifecycleOwner) {
             descriptionTextView.text = (it.description)
         }*/
-
         return view
     }
 }
